@@ -1,6 +1,12 @@
+"""_____________________________________________________________________________________________________________
+||                                                                                                             ||
+||                 Time Series Forecasting with Recurrent Neuronal Network : generated stairs                  ||
+||                                                                                            By Barna et Raoul||
+______________________________________________________________________________________________________________"""
+
+
 #Unlike prior version, test data are generate separately
 
-#What are we working with?
 import sys
 print(sys.version)
 
@@ -23,23 +29,23 @@ import tensorflow.contrib.rnn as rnn
 #TF Version
 print(tf.__version__)
 
-#generate some training data
+
+'''---------------------------------------------------------------------------------------------------------
+|--------------------------------------- Generating training data -----------------------------------------|
+---------------------------------------------------------------------------------------------------------'''
 nb_training_data = 209
 price = np.zeros(nb_training_data)
 price[0] = 2000
 mu = 0
 sigma = 1
-
 for y in range(1, nb_training_data):
 	if np.mod(y,2) == 1:
 		price[y] = price[y-1] + 4 + random.normalvariate(mu, sigma)
 	else:
 		price[y] = price[y-1] - 8 +  random.normalvariate(mu, sigma)
-
 #plot price curve
 plt.figure();plt.plot(price, 'b.');plt.show()
-
-#Convert data into array that can be broken up into training "batches" that we will feed into our RNN model. Note the shape of the arrays.
+#Convert data into array that can be broken up into training "batches" that we will feed into our RNN model.
 TS = np.array(price)
 print(TS)
 #input("Press ENTER to continue...")
@@ -58,7 +64,6 @@ y_batches = y_data.reshape(-1, num_periods, 1)
 print(x_data)
 print(y_data)
 """
-
 print (y_batches[0:1])
 print (y_batches.shape)
 """
@@ -81,11 +86,10 @@ for y in range(1, nb_testing_data):
 		price_test[y] = price_test[y-1] + 4
 	else:
 		price_test[y] = price_test[y-1] - 8
-
 #plot price curve
 plt.figure();plt.plot(price_test, 'bo');plt.show()
 
-#Convert data into array that can be broken up into training "batches" that we will feed into our RNN model. Note the shape of the arrays.
+#Convert data into array that can be broken up into training "batches" that we will feed into our RNN model.
 TS_test = np.array(price_test)
 print(TS_test)
 #input("Press ENTER to continue...")
@@ -125,14 +129,21 @@ print (X_test)
 print (Y_test.shape)
 print (Y_test)
 """
+
+
+
 tf.reset_default_graph()   #We didn't have any previous graph objects running, but this would reset the graphs
 
 
+
+'''-------------------------------------------------------------------------------------------------------------------
+|--------------------------------------------------Model 'n stuff ---------------------------------------------------|
+-------------------------------------------------------------------------------------------------------------------'''
 inputs = 1            #number of vectors submitted
 hidden = 100        #number of neurons we will recursively work through, can be changed to improve accuracy
 output = 1            #number of output vectors
 
-X = tf.placeholder(tf.float32, [None, num_periods, inputs])   #create variable objects
+X = tf.placeholder(tf.float32, [None, num_periods, inputs])   #create "variable" objects (=placeholder)
 y = tf.placeholder(tf.float32, [None, num_periods, output])
 
 
@@ -145,7 +156,7 @@ stacked_rnn_output = tf.reshape(rnn_output, [-1, hidden])           #change the 
 stacked_outputs = tf.layers.dense(stacked_rnn_output, output)        #specify the type of layer (dense)
 outputs = tf.reshape(stacked_outputs, [-1, num_periods, output])          #shape of results
 
-inputs = 1
+inputs = 1  
 output =1
 
 loss = tf.reduce_sum(tf.square(outputs - y))    #define the cost function which evaluates the quality of our model
@@ -154,7 +165,17 @@ training_op = optimizer.minimize(loss)          #train the result of the applica
 
 init = tf.global_variables_initializer()           #initialize all the variables
 
-epochs = 1000     #number of iterations or training cycles, includes both the FeedFoward and Backpropogation
+
+
+
+
+
+
+'''---------------------------------------------------------------------------------------------------------------
+|--------------------------------------Training------------------------------------------------------------------|
+---------------------------------------------------------------------------------------------------------------'''
+
+epochs = 1000     #number of iterations of training cycles, includes both the FeedFoward and Backpropogation
 
 with tf.Session() as sess:
     init.run()
@@ -164,6 +185,9 @@ with tf.Session() as sess:
             mse = loss.eval(feed_dict={X: x_batches, y: y_batches})
             print(ep, "\tMSE:", mse)
     
+'''------------------------------------------------------------------------------------------------------------
+|--------------------------------------------------Predict----------------------------------------------------|
+------------------------------------------------------------------------------------------------------------'''
     y_pred = sess.run(outputs, feed_dict={X: X_test})
     print(y_pred)
 
