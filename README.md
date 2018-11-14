@@ -20,3 +20,6 @@ Pour enregistrer tes commits : git commit -m "Message et explications"
 
 Pour synchroniser la version du net avec les nouveaux changements après commit : git push origin master       PUIS       remplir username et password dans le terminal
 
+Pour configurer notepad++ comme editeur :  git config --global core.editor " 'C:/Program Files(x86)/Notepad++/notepad++.exe' -mutliInst -notabbar -nosession -noplugin"
+
+Pour ouvrir un fichier en mode edition avec notepad++ : start notepad++ filenameOrPath
