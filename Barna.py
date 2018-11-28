@@ -2,12 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 
-
-
-
-
-
-
 def loadData(filepath):
 	"""
 		load price in text file and convert it into numpy aray
@@ -97,9 +91,7 @@ def Bollingers(np_series, mm = 20, a=2):
 		
 	return bollingers
 
-def plotBollingers(np_series, bollingers, window = 20, scale=1.96):#ATTENTION PROBLEM
-	series = []
-	series = np_series[window: len(np_series)]
+def plotBollingers(np_series, bollingers, window = 20, scale=1.96):
 	colors = ['g','r','y','b','m']
 	plt.figure(figsize=(15,5))
 	plt.title("Bollingers")
@@ -108,7 +100,7 @@ def plotBollingers(np_series, bollingers, window = 20, scale=1.96):#ATTENTION PR
 	plt.plot(bollingers[:,1], colors[1], label="Bollinger sup")
 	plt.plot(bollingers[:,2], colors[1], label="Bollinger inf")
 	
-	plt.plot(series, label="Actual values")
+	plt.plot(np_series, label="Actual values")
 	plt.legend(loc="upper left")
 	plt.grid(True)
 	plt.show()	
