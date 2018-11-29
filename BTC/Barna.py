@@ -35,7 +35,7 @@ def calculateVariation(np_series, horizon = 1, percent = 0):
 	for i in range(horizon,len(np_series)):
 		variation[i] = np_series[i] - np_series[i-horizon]
 		if bool(percent == 1):
-			variation[i] = variation[i]/np_series[i]*100
+			variation[i] = variation[i]/np_series[i-horizon]*100
 	return variation
 	
 def displayPlot(np_series):
