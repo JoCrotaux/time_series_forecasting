@@ -2,17 +2,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 
-def loadData(filepath):
+def loadData(filepath, column = 5):
 	"""
 		load price in text file and convert it into numpy aray
 	"""
 	data = np.loadtxt(filepath)
 	price = np.zeros(len(data))
 	for y in range(len(data)):
-		price[y] = data[y][5]
+		price[y] = data[y][column]
 	return price
 
-def loadCandle(filepath):
+def loadCandle(filepath, columns = [2,3,4,5]):
 	"""
 		load candle in text file and convert it into numpy matrix
 		cfr CAC40 2006-2015 daily [open high low close]
@@ -20,19 +20,22 @@ def loadCandle(filepath):
 	data = np.loadtxt(filepath)
 	candle = np.empty((len(data),4))
 	for y in range(len(data)):
-		candle[y][0] = data[y][2]
-		candle[y][1] = data[y][3]
-		candle[y][2] = data[y][4]
-		candle[y][3] = data[y][5]
+		candle[y][0] = data[y][columns[0]]
+		candle[y][1] = data[y][columns[1]]
+		candle[y][2] = data[y][columns[2]]
+		candle[y][3] = data[y][columns[3]]
 	return candle
 
-def calculateVariation(np_series, horizon = 1):
+def calculateVariation(np_series, horizon = 1, percent = 0):
 	"""
 		Return variation between serie in t and t+horizon
+		Parameter "percent" : 0 for absolute variaition, 1 for percentage variation
 	"""
 	variation = np.empty(len(np_series))
 	for i in range(horizon,len(np_series)):
 		variation[i] = np_series[i] - np_series[i-horizon]
+		if bool(percent == 1):
+			variation[i] = variation[i]/np_series[i]*100
 	return variation
 	
 def displayPlot(np_series):
