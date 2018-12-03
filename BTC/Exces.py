@@ -6,8 +6,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import Barna as bn
+import os
 
-filepath = '/home/johan/miniconda3/envs/venv/Projets/BTC/BTCUSD_2016_2018.txt'
+dirname = os.path.dirname(__file__)
+filepath = os.path.join(dirname, 'BTCUSD_2016_2018.txt')
 
 #BTC plot and variations from one day to the next one
 price = bn.loadData(filepath, column = 4)
