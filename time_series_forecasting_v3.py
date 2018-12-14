@@ -185,9 +185,7 @@ with tf.Session() as sess:
             mse = loss.eval(feed_dict={X: x_batches, y: y_batches})
             print(ep, "\tMSE:", mse)
     
-'''------------------------------------------------------------------------------------------------------------
-|--------------------------------------------------Predict----------------------------------------------------|
-------------------------------------------------------------------------------------------------------------'''
+
     y_pred = sess.run(outputs, feed_dict={X: X_test})
     print(y_pred)
 
@@ -198,5 +196,7 @@ plt.plot(pd.Series(np.ravel(Y_test)), "bo", markersize=10, label="Actual")
 plt.plot(pd.Series(np.ravel(y_pred)), "r.", markersize=10, label="Forecast")
 plt.legend(loc="upper left")
 plt.xlabel("Time Periods")
-plt.savefig('/home/johan/miniconda3/envs/venv/Projets/time_series/new_fig.png')
+dirname = os.path.dirname(__file__)
+plt_path = os.path.join(dirname, 'new_fig.png')
+plt.savefig(plt_path)
 plt.show()
