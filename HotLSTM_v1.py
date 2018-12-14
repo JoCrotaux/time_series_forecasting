@@ -55,7 +55,7 @@ init = tf.global_variables_initializer()
 
 with tf.Session() as sess:
 	init.run()
-	outputs_val = outputs.eval(feed_dict={X: X_seqs})
+	outputs_val = outputs.eval(feed_dict={X: X_batch})
 
 
 
