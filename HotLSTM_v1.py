@@ -1,10 +1,10 @@
 import os
 
-"""
+
 import tensorflow as tf
 from tensorflow import keras
 print(tf.__version__)
-"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -55,7 +55,7 @@ init = tf.global_variables_initializer()
 
 with tf.Session() as sess:
 	init.run()
-	outputs_val = outputs.eval(feed_dict={X: X_batch})
+	outputs_val = outputs.eval(feed_dict={X: X_seqs})
 
 
 
